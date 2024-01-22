@@ -1,5 +1,6 @@
 import gspread
 from google.oauth2.service_account import Credentials
+from pprint import pprint #pprint() method installed
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -68,7 +69,29 @@ def update_sales_worksheet(data): #parameter is data to insert, for function to 
     sales_worksheet.append_row(data) #append row method adds new row to the end of data in selected worksheet
     print("Sales worksheet updated successfully\n")
 
+def calculate_surplus_data(sales_row): #pass sales data list to use in calculation
+    """
+    Compare sales with stock and calculate the surplus for each item type.
 
-data = get_sales_data()
-sales_data = [int(num) for num in data] #convert data from the gest sales funciton into integers 
-update_sales_worksheet(sales_data) #call the function and pass it the sales_data list
+    The surplus is defined as the sales figure subtracted from the stock:
+    - Positive surplus indicates waste
+    - Negative surplus indicates extra made when stock was sold out.
+    """
+    print("Calculating surplus data...\n") #UX: signals that calucation is starting
+    stock = SHEET.worksheet('stock').get_all_values() #use worksheet method to let programm know, which sheet we want. use gett_all_values() to fetch all of the cells from the stock worksheet
+    stock_row = stock[-1]
+    pprint(stock_row) 
+
+
+#Best practice: wrap main function calls into a function called main
+def main():
+    """
+    Run all programm functions
+    """
+    data = get_sales_data()
+    sales_data = [int(num) for num in data] #convert data from the gest sales funciton into integers 
+    update_sales_worksheet(sales_data) #call the function and pass it the sales_data list
+    calculate_surplus_data(sales_data)
+
+print("Welcome to Love Sandwich Data Automation\n")
+main()
