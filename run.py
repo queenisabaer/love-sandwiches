@@ -16,15 +16,20 @@ def get_sales_data():
     """
     Get sales figures input from the user (Docstring should always be right under the functions names)
     """
-    print("Please enter sales data from the last market.")
-    print("Data should ne six numbers, separated by comma.")
-    print("Example: 10,20,30,40,50,60\n") #to add a new line between example and data input field \n
+    while True: #repeat request for data right away if incorrect data was entered
+        print("Please enter sales data from the last market.")
+        print("Data should ne six numbers, separated by comma.")
+        print("Example: 10,20,30,40,50,60\n") #to add a new line between example and data input field \n
 
-    data_str = input("Enter your data her: ")
+        data_str = input("Enter your data her: ")
     
-    sales_data = data_str.split(",") #split() method returns the broken up values as a list and removes commas from the string. convert string value into a list of values, each separated by a comma
-    validate_data(sales_data) 
-
+        sales_data = data_str.split(",") #split() method returns the broken up values as a list and removes commas from the string. convert string value into a list of values, each separated by a comma
+         
+        #set a condition to end while loop if data is valid
+        if validate_data(sales_data): #takes the return statement in the validate_data()function and only runs if it is true
+            print("Data is valid!") #for user to see, everything is correct
+            break #ends while loop
+    return sales_data #return the validated sales_data and returns this value
 
 #validate data before allowing the rest of the programm to continue
 def validate_data(values): #parameter of 'values' which will be our sales data list 
@@ -44,6 +49,9 @@ def validate_data(values): #parameter of 'values' which will be our sales data l
     except ValueError as e: #print an error to the terminal, Value Error class containt the details of the error trigerd by the code in try statement
          #by using as we're assigning that ValueError object to the e variable(standard for error)
          print(f"Invalid data: {e}, please try again.\n ")#print error if try fails
+         return False
+    
+    return True #if function runs without any errors
 
 
-get_sales_data()
+data = get_sales_data()
