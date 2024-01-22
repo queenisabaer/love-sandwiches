@@ -35,6 +35,7 @@ def validate_data(values): #parameter of 'values' which will be our sales data l
     """
     #try-except statement to check if data is valid
     try: #code that runs with no errors if data is valid
+        [int(value) for value in values] #loop through values list and convert each string into an integer
         if len(values) != 6: #raise a ValueError if lenght of data is not 6
             #len()method returns the length of the list - the number of values in it
             raise ValueError(#create own costum error message
