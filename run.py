@@ -1,6 +1,5 @@
 import gspread
 from google.oauth2.service_account import Credentials
-from pprint import pprint #pprint() method installed
 
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
@@ -26,7 +25,7 @@ def get_sales_data():
         print("Data should ne six numbers, separated by comma.")
         print("Example: 10,20,30,40,50,60\n") #to add a new line between example and data input field \n
 
-        data_str = input("Enter your data her: ")
+        data_str = input("Enter your data her: \n") #for heruko app important! always add additional line in input fields
     
         sales_data = data_str.split(",") #split() method returns the broken up values as a list and removes commas from the string. convert string value into a list of values, each separated by a comma
          
