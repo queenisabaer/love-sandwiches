@@ -80,8 +80,12 @@ def calculate_surplus_data(sales_row): #pass sales data list to use in calculati
     print("Calculating surplus data...\n") #UX: signals that calucation is starting
     stock = SHEET.worksheet('stock').get_all_values() #use worksheet method to let programm know, which sheet we want. use gett_all_values() to fetch all of the cells from the stock worksheet
     stock_row = stock[-1]
-    pprint(stock_row) 
-
+    
+    surplus_data = [] #create a list from the surplus calculation
+    for stock, sales in zip(stock_row, sales_row): #iterates through both lists at same time, by using zip()
+        surplus = int(stock) - sales #the stock values are still strings, so they need to be converted into integers to perform a calculation
+        surplus_data.append(surplus) #append the calculated values to the surplus_data list
+    return surplus_data
 
 #Best practice: wrap main function calls into a function called main
 def main():
@@ -91,7 +95,8 @@ def main():
     data = get_sales_data()
     sales_data = [int(num) for num in data] #convert data from the gest sales funciton into integers 
     update_sales_worksheet(sales_data) #call the function and pass it the sales_data list
-    calculate_surplus_data(sales_data)
+    new_surplus_data = calculate_surplus_data(sales_data)
+    print(new_surplus_data)
 
 print("Welcome to Love Sandwich Data Automation\n")
 main()
