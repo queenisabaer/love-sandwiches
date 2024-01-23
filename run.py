@@ -58,16 +58,34 @@ def validate_data(values): #parameter of 'values' which will be our sales data l
     
     return True #if function runs without any errors
 
-#insert sales_data as a new entry in sales workshett over in Google Sheets
-def update_sales_worksheet(data): #parameter is data to insert, for function to work
-    """
-    Update sales worksheet, add new row with the list data provided.
-    """
-    print("Updating sales worksheet...\n") #give user feedback(UX) as program completes task.
-    sales_worksheet = SHEET.worksheet('sales') #to access sales worksheet from Google Sheet(on top this SHEET variable was created to get the google sheet)
+#iCOMMENTED OUT: insert sales_data as a new entry in sales workshett over in Google Sheets
+#def update_sales_worksheet(data): #parameter is data to insert, for function to work
+
+   # Update sales worksheet, add new row with the list data provided.
+    #print("Updating sales worksheet...\n") #give user feedback(UX) as program completes task.
+    #sales_worksheet = SHEET.worksheet('sales') #to access sales worksheet from Google Sheet(on top this SHEET variable was created to get the google sheet)
     #use gspread method append_row() to pass inserted data
-    sales_worksheet.append_row(data) #append row method adds new row to the end of data in selected worksheet
-    print("Sales worksheet updated successfully\n")
+    #sales_worksheet.append_row(data) #append row method adds new row to the end of data in selected worksheet
+    #print("Sales worksheet updated successfully\n")
+
+# def update_surplus_worksheet(data): #parameter is data to insert, for function to work
+#  Update surplus worksheet, add new row with the list data provided.
+ 
+    #print("Updating surplus worksheet...\n") #give user feedback(UX) as program completes task.
+    #surplus_worksheet = SHEET.worksheet('surplus') #to access sales worksheet from Google Sheet(on top this SHEET variable was created to get the google sheet)
+    #use gspread method append_row() to pass inserted data
+    #surplus_worksheet.append_row(data) #append row method adds new row to the end of data in selected worksheet
+    #print("Surplus worksheet updated successfully\n")
+
+#refactoring the two functions above
+def update_worksheet(data, worksheet):
+    """
+    Update worksheet, add new row with the list data provided
+    """
+    print(f"Updating {worksheet} worksheet...\n")
+    worksheet_to_update = SHEET.worksheet(worksheet)
+    worksheet_to_update.append_row(data)
+    print(f"{worksheet} worksheet updated successfully\n")
 
 def calculate_surplus_data(sales_row): #pass sales data list to use in calculation
     """
@@ -87,16 +105,6 @@ def calculate_surplus_data(sales_row): #pass sales data list to use in calculati
         surplus_data.append(surplus) #append the calculated values to the surplus_data list
     return surplus_data
 
-def update_surplus_worksheet(new_data): #parameter is data to insert, for function to work
-    """
-    Update surplus worksheet, add new row with the list data provided.
-    """
-    print("Updating surplus worksheet...\n") #give user feedback(UX) as program completes task.
-    surplus_worksheet = SHEET.worksheet('surplus') #to access sales worksheet from Google Sheet(on top this SHEET variable was created to get the google sheet)
-    #use gspread method append_row() to pass inserted data
-    surplus_worksheet.append_row(new_data) #append row method adds new row to the end of data in selected worksheet
-    print("Surplus worksheet updated successfully\n")
-
 #Best practice: wrap main function calls into a function called main
 def main():
     """
@@ -104,10 +112,10 @@ def main():
     """
     data = get_sales_data()
     sales_data = [int(num) for num in data] #convert data from the get sales funciton into integers 
-    update_sales_worksheet(sales_data) #call the function and pass it the sales_data list
+    update_worksheet(sales_data, 'sales') #call the function and pass it the sales_data list
     new_surplus_data = calculate_surplus_data(sales_data)
-    update_surplus_worksheet(new_surplus_data)
-    print(new_surplus_data)
+    update_worksheet(new_surplus_data, 'surplus')
+    
 
 print("Welcome to Love Sandwich Data Automation\n")
 main()
